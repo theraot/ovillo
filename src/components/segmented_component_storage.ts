@@ -27,7 +27,6 @@ module Engine
             return sourceStorage.get(entityId);
         }
 
-
         set(entityId: EntityId, value: Component): void
         {
             let sourceStorage = this._storageIndex.get(entityId);

@@ -163,18 +163,18 @@ module Engine
         private _createStorageHolder<Component>(componentStorage: ComponentStorage<Component>): ComponentStorage<any>
         {
             return componentStorage;
-        };
+        }
 
         private _createDefaultStorageHolder<Component>(): ComponentStorage<any>
         {
             return this._createStorageHolder(new DefaultComponentStorage<Component>());
-        };
+        }
 
         private _createSingleComponentStorageHolder<Component>(entityId: EntityId, component: Component): ComponentStorage<any>
         {
             let storage = new DefaultComponentStorage<Component>();
             storage.set(entityId, component);
             return this._createStorageHolder(storage);
-        };
+        }
     }
 }
