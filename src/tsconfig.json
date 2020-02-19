@@ -3,6 +3,6 @@
         "target": "ES6",
         "module": "none",
         "strict": true,
-        "out": "../debug/root.js"
+        "out": "../.debug/root.js"
     }
 }

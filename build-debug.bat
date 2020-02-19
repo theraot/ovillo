@@ -6,9 +6,9 @@ call ensure-debug-buildable.bat
 
 echo Cleaning debug build
 
-if not exist "%mypath%\debug" mkdir "%mypath%\debug"
+if not exist "%mypath%\.debug" mkdir "%mypath%\.debug"
 
-pushd "%mypath%\debug"
+pushd "%mypath%\.debug"
 
     rd /s /q . 2>nul
 
@@ -28,5 +28,5 @@ if not exist "%mypath%\src" (
 
     echo Copying to debug build
 
-    xcopy "%mypath%\src\*.*" "%mypath%\debug\" /S /Y /exclude:xcopy-exclusion-list.txt
+    xcopy "%mypath%\src\*.*" "%mypath%\.debug\" /S /Y /exclude:xcopy-exclusion-list.txt
 )

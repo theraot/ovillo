@@ -7,9 +7,9 @@ call ensure-release-buildable.bat
 
 echo Cleaning release build
 
-if not exist "%mypath%\release" mkdir "%mypath%\release"
+if not exist "%mypath%\.release" mkdir "%mypath%\.release"
 
-pushd "%mypath%\release"
+pushd "%mypath%\.release"
 
     rd /s /q . 2>nul
 
@@ -17,9 +17,9 @@ popd
 
 echo Copying to release build
 
-xcopy "%mypath%\debug\*.*" "%mypath%\release\" /S /Y /exclude:xcopy-exclusion-list.txt
+xcopy "%mypath%\.debug\*.*" "%mypath%\.release\" /S /Y /exclude:xcopy-exclusion-list.txt
 
-pushd "%mypath%\release"
+pushd "%mypath%\.release"
     
     echo Minifying JavaScript
 
