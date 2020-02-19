@@ -3,6 +3,7 @@ SET mypath=%~dp0
 IF "%mypath:~-1%"=="\" SET "mypath=%mypath:~0,-1%"
 
 call build-debug.bat
+call ensure-release-buildable.bat
 
 echo Cleaning release build
 
