@@ -23,7 +23,7 @@ pushd "%mypath%\.release"
     
     echo Minifying JavaScript
 
-    for /r %%i in (*.js) do call uglifyjs %%i --output %%i
+    for /r %%i in (*.js) do call minify %%i --out-file %%i
     
     echo Minifying CSS
     
