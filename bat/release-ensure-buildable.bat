@@ -1,4 +1,3 @@
-@echo off
 echo Searching for Babel Minify
 
 FOR %%X in (minify) do (set FOUNDUJS=%%~$PATH:X)

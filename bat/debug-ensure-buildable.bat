@@ -1,4 +1,3 @@
-@echo off
 echo Searching for Node.js
 
 FOR %%X in (npm) do (set FOUNDNODE=%%~$PATH:X)

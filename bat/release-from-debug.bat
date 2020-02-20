@@ -1,4 +1,3 @@
-@echo off
 SET batpath=%~dp0
 IF "%batpath:~-1%"=="\" SET "batpath=%batpath:~0,-1%"
 echo Copying to release build

@@ -1,4 +1,3 @@
-@echo off
 IF %1.==. GOTO No1
     SET rootpath=%1
     IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"

@@ -1,4 +1,3 @@
-@echo off
 echo Cleaning obj build
 IF not exist "%cd%\.obj\" mkdir "%cd%\.obj\"
 pushd "%cd%\.obj"

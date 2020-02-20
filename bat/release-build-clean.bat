@@ -1,4 +1,3 @@
-@echo off
 echo Cleaning release build
 IF not exist "%cd%\.release\" mkdir "%cd%\.release\"
 pushd "%cd%\.release"
