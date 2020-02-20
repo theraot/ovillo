@@ -13,18 +13,17 @@ pushd %basepath%
             SET rootpath=%cd%
             IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
         popd
+        CALL :AddSource %rootpath%
         GOTO Work
 
     :No1
         SET rootpath=%~dp0
         IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
         SET rootpath=%rootpath%\src
+        CALL :AddSource %rootpath%
         GOTO Work
 
     :Work
-        echo Working on: "%rootpath%"
-        If not exist "%rootpath%" GOTO NoSource
-        CALL "%batpath%\debug-build-add.bat" %rootpath%
         pushd "%cd%\.obj\"
             echo Compiling TypeScript
             CALL tsc -p tsconfig.json
@@ -39,14 +38,21 @@ pushd %basepath%
 popd
 Goto End
 
-:NoSource
-    echo Not found source folder, expected path: "%rootpath%"
-    echo Currnet script: %~f0
-    GOTO End
-
 :NoBatFolder
     echo Not found bat folder, expected path "%batpath%"
     echo Currnet script: %~f0
     GOTO End
+
+:AddSource
+    echo Working on: "%~1"
+    If not exist "%~1" GOTO NoSource
+    CALL "%batpath%\debug-build-add.bat" %~1
+    GOTO AddSourceEnd
+    :NoSource
+        echo Not found source folder, expected path: "%rootpath%"
+        echo Currnet script: %~f0
+        GOTO AddSourceEnd
+    :AddSourceEnd
+GOTO:eof
 
 :End
