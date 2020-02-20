@@ -22,7 +22,8 @@ IF %1.==. GOTO No1
     IF not exist "%batpath%" GOTO NoBatFolder
     
     pushd %basepath%
-        CALL "%batpath%\build-release-actual.bat" %rootpath%
+        CALL "%batpath%\build-debug-actual.bat" %rootpath%
+        CALL "%batpath%\debug-to-release.bat"
     popd
     GOTO End
 
