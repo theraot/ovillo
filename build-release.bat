@@ -28,7 +28,7 @@ IF %1.==. GOTO No1
     GOTO End
 
 :NoSource
-    echo Not found src folder, expected path: "%rootpath%"
+    echo Not found source folder, expected path: "%rootpath%"
     echo Currnet script: %~f0
     GOTO End
 
