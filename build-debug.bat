@@ -1,32 +1,39 @@
 @echo off
-SET mypath=%~dp0
-IF "%mypath:~-1%"=="\" SET "mypath=%mypath:~0,-1%"
-
-call ensure-debug-buildable.bat
-
-echo Cleaning debug build
-
-if not exist "%mypath%\.debug" mkdir "%mypath%\.debug"
-
-pushd "%mypath%\.debug"
-
-    rd /s /q . 2>nul
-
-popd
-
-if not exist "%mypath%\src" (
-
-    echo Source not found
-
-) else (
-    pushd "%mypath%\src"
-
-        echo Compiling TypeScript
-
-        call tsc -p tsconfig.json
+IF %1.==. GOTO No1
+    pushd %1
+        SET rootpath=%cd%
+        IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
     popd
+    GOTO Work
 
-    echo Copying to debug build
+:No1
+    SET rootpath=%~dp0
+    IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
+    SET rootpath=%rootpath%\src
+    GOTO Work
 
-    xcopy "%mypath%\src\*.*" "%mypath%\.debug\" /S /Y /exclude:xcopy-exclusion-list.txt
-)
+:Work
+    echo Working on: "%rootpath%"
+    If not exist "%rootpath%" GOTO NoSource
+    
+    SET basepath=%~dp0
+    IF "%basepath:~-1%"=="\" SET "basepath=%basepath:~0,-1%"
+    SET batpath=%basepath%\bat
+    IF not exist "%batpath%" GOTO NoBatFolder
+    
+    pushd %basepath%
+        CALL "%batpath%\build-debug-actual.bat" %rootpath%
+    popd
+    GOTO End
+
+:NoSource
+    echo Not found src folder, expected path: "%rootpath%"
+    echo Currnet script: %~f0
+    GOTO End
+
+:NoBatFolder
+    echo Not found bat folder, expected path "%batpath%"
+    echo Currnet script: %~f0
+    GOTO End
+
+:End

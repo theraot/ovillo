@@ -1,31 +1,39 @@
 @echo off
-SET mypath=%~dp0
-IF "%mypath:~-1%"=="\" SET "mypath=%mypath:~0,-1%"
+IF %1.==. GOTO No1
+    pushd %1
+        SET rootpath=%cd%
+        IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
+    popd
+    GOTO Work
 
-call build-debug.bat
-call ensure-release-buildable.bat
+:No1
+    SET rootpath=%~dp0
+    IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
+    SET rootpath=%rootpath%\src
+    GOTO Work
 
-echo Cleaning release build
-
-if not exist "%mypath%\.release" mkdir "%mypath%\.release"
-
-pushd "%mypath%\.release"
-
-    rd /s /q . 2>nul
-
-popd
-
-echo Copying to release build
-
-xcopy "%mypath%\.debug\*.*" "%mypath%\.release\" /S /Y /exclude:xcopy-exclusion-list.txt
-
-pushd "%mypath%\.release"
+:Work
+    echo Working on: "%rootpath%"
+    If not exist "%rootpath%" GOTO NoSource
     
-    echo Minifying JavaScript
+    SET basepath=%~dp0
+    IF "%basepath:~-1%"=="\" SET "basepath=%basepath:~0,-1%"
+    SET batpath=%basepath%\bat
+    IF not exist "%batpath%" GOTO NoBatFolder
+    
+    pushd %basepath%
+        CALL "%batpath%\build-release-actual.bat" %rootpath%
+    popd
+    GOTO End
 
-    for /r %%i in (*.js) do call minify %%i --out-file %%i
-    
-    echo Minifying CSS
-    
-    for /r %%i in (*.css) do call uglifycss %%i --output %%i
-popd
+:NoSource
+    echo Not found src folder, expected path: "%rootpath%"
+    echo Currnet script: %~f0
+    GOTO End
+
+:NoBatFolder
+    echo Not found bat folder, expected path "%batpath%"
+    echo Currnet script: %~f0
+    GOTO End
+
+:End
