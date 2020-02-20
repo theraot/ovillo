@@ -1,6 +1,6 @@
 echo Searching for Babel Minify
 
-FOR %%X in (minify) do (set FOUNDUJS=%%~$PATH:X)
+FOR %%X in (minify) DO (SET FOUNDUJS=%%~$PATH:X)
 IF defined FOUNDUJS (
 
     echo Found Babel Minify
@@ -14,7 +14,7 @@ IF defined FOUNDUJS (
 
 echo Searching for uglifycss
 
-FOR %%X in (uglifycss) do (set FOUNDUCSS=%%~$PATH:X)
+FOR %%X in (uglifycss) DO (SET FOUNDUCSS=%%~$PATH:X)
 IF defined FOUNDUCSS (
 
     echo Found uglifycss
