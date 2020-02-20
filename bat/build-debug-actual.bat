@@ -7,19 +7,8 @@ IF %1.==. GOTO No1
     SET batpath=%~dp0
     IF "%batpath:~-1%"=="\" SET "batpath=%batpath:~0,-1%"
     
-    echo Cleaning obj build
-    IF not exist "%cd%\.obj\" mkdir "%cd%\.obj\"
-    pushd "%cd%\.obj"
-        rd /s /q . 2>nul
-    popd
     echo Copying to obj
     xcopy "%rootpath%\*.*" "%cd%\.obj\" /S /Y
-    CALL "%batpath%\ensure-debug-buildable.bat"
-    echo Cleaning debug build
-    IF not exist "%cd%\.debug\" mkdir "%cd%\.debug\"
-    pushd "%cd%\.debug\"
-        rd /s /q . 2>nul
-    popd
     pushd "%cd%\.obj\"
         echo Compiling TypeScript
         CALL tsc -p tsconfig.json
