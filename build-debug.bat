@@ -21,9 +21,9 @@ pushd %basepath%
 :Work
     echo Working on: "%rootpath%"
     If not exist "%rootpath%" GOTO NoSource
-    CALL "%batpath%\ensure-debug-buildable.bat"
+    CALL "%batpath%\debug-ensure-buildable.bat"
     CALL "%batpath%\debug-build-clean.bat"
-    CALL "%batpath%\build-debug-actual.bat" %rootpath%
+    CALL "%batpath%\debug-build.bat" %rootpath%
     GOTO End
 
 :NoSource
