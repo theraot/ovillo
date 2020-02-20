@@ -23,7 +23,12 @@ pushd %basepath%
     If not exist "%rootpath%" GOTO NoSource
     CALL "%batpath%\debug-ensure-buildable.bat"
     CALL "%batpath%\debug-build-clean.bat"
-    CALL "%batpath%\debug-build.bat" %rootpath%
+    CALL "%batpath%\debug-build-add.bat" %rootpath%
+    pushd "%cd%\.obj\"
+        echo Compiling TypeScript
+        CALL tsc -p tsconfig.json
+    popd
+    CALL "%batpath%\debug-build-complete.bat" %rootpath%
     CALL "%batpath%\release-ensure-buildable.bat"
     CALL "%batpath%\release-build-clean.bat"
     CALL "%batpath%\release-from-debug.bat"

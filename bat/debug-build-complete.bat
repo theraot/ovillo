@@ -2,17 +2,9 @@
 IF %1.==. GOTO No1
     SET rootpath=%1
     IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
-    If not exist "%rootpath%" GOTO NoSource
-    
+    If not exist "%rootpath%" GOTO NoSource   
     SET batpath=%~dp0
     IF "%batpath:~-1%"=="\" SET "batpath=%batpath:~0,-1%"
-    
-    echo Copying to obj
-    xcopy "%rootpath%\*.*" "%cd%\.obj\" /S /Y
-    pushd "%cd%\.obj\"
-        echo Compiling TypeScript
-        CALL tsc -p tsconfig.json
-    popd
     echo Copying to debug build
     xcopy "%rootpath%\*.*" "%cd%\.debug\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
     GOTO End
