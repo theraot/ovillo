@@ -13,7 +13,7 @@ GOTO Work
 :Work
     pushd "%cd%\.obj\"
         echo Compiling TypeScript
-        CALL tsc -p tsconfig.json
+        CALL tsc -b tsconfig.json
     popd
     IF %1.==. GOTO No1Complete
     FOR %%A IN (%*) DO CALL :CompleteSource %%A
