@@ -1,5 +1,6 @@
 SET basepath=%~dp0
 IF "%basepath:~-1%"=="\" SET "basepath=%basepath:~0,-1%"
+CALL "%basepath%\debug-build-clean.bat"
 CALL "%basepath%\debug-ensure-buildable.bat"
 CALL "%basepath%\debug-build-clean.bat"
 IF %1.==. GOTO No1Add
