@@ -1,31 +1,21 @@
 SET basepath=%~dp0
 IF "%basepath:~-1%"=="\" SET "basepath=%basepath:~0,-1%"
+
+IF %1.==. GOTO NoArg
 CALL "%basepath%\debug-ensure-buildable.bat"
 CALL "%basepath%\debug-build-clean.bat"
-IF %1.==. GOTO No1Add
 FOR %%A IN (%*) DO CALL :AddSource %%A
-GOTO Work
 
-:No1Add
-    call :AddSource %~dp0\src
-    GOTO Work
-:Work
-    pushd "%cd%\.obj\"
-        echo Compiling TypeScript
-        CALL tsc -b tsconfig.json
-    popd
-    IF %1.==. GOTO No1Complete
-    FOR %%A IN (%*) DO CALL :CompleteSource %%A
-    GOTO Postwork
-:No1Complete
-    call :CompleteSource %~dp0\src
-    GOTO Postwork
+pushd "%cd%\.obj\"
+    echo Compiling TypeScript
+    CALL tsc -b tsconfig.json
+popd
+FOR %%A IN (%*) DO CALL :CompleteSource %%A
 
-:PostWork
-    CALL "%basepath%\release-ensure-buildable.bat"
-    CALL "%basepath%\release-build-clean.bat"
-    CALL "%basepath%\release-from-debug.bat"
-    Goto End
+CALL "%basepath%\release-ensure-buildable.bat"
+CALL "%basepath%\release-build-clean.bat"
+CALL "%basepath%\release-from-debug.bat"
+Goto End
 
 :AddSource
     pushd %~1
@@ -58,5 +48,9 @@ GOTO:eof
         GOTO AddSourceEnd
     :AddSourceEnd
 GOTO:eof
+
+:NoArg
+    echo Missing path to source
+    Goto End
 
 :End
