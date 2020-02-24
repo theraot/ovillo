@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export class SegmentedComponentStorage<Component> implements ComponentStorage<Component>
     {

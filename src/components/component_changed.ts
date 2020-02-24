@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export type ComponentChanged<Component> = {readonly change: "add", readonly entityId: EntityId, readonly newValue: Component}
                                             | {readonly change: "remove", readonly entityId: EntityId, readonly oldValue: Component}

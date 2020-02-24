@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export class ComponentStorageWrapper<Component> implements ComponentStorage<Component>
     {

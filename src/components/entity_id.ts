@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export type EntityId = object;
 }

@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export type Option<T> = {isSome: true, value: T}
                           | {isSome: false};

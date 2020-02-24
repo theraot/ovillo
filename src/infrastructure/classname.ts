@@ -1,4 +1,4 @@
-module Engine
+module Ovillo
 {
     export function classname(value: any) : string | null
     {
