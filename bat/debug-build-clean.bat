@@ -1,10 +1,10 @@
-echo Cleaning tmp
-IF not exist "%cd%\.tmp\" mkdir "%cd%\.tmp\"
-pushd "%cd%\.tmp"
+echo Cleaning archive
+IF not exist "%cd%\.archive\" mkdir "%cd%\.archive\"
+pushd "%cd%\.archive"
     rd /s /q . 2>nul
 popd
-echo Cleaning debug
-IF not exist "%cd%\.debug\" mkdir "%cd%\.debug\"
-pushd "%cd%\.debug\"
+echo Cleaning compile
+IF not exist "%cd%\.compile\" mkdir "%cd%\.compile\"
+pushd "%cd%\.compile\"
     rd /s /q . 2>nul
 popd

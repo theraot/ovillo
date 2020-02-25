@@ -1,5 +1,5 @@
 
-.tmp/
-.obj/
-.debug/
-.release/
+.archive/
+.build/
+.compile/
+.deploy/

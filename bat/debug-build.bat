@@ -6,14 +6,14 @@ CALL "%basepath%\debug-ensure-buildable.bat"
 CALL "%basepath%\debug-build-clean.bat"
 FOR %%A IN (%*) DO CALL :AddSource %%A
 
-pushd "%cd%\.tmp\"
+pushd "%cd%\.archive\"
     echo Compiling TypeScript
     CALL tsc -b tsconfig.json
 popd
 FOR %%A IN (%*) DO CALL :CompleteSource %%A
 
-echo Copying from obj to debug
-xcopy "%cd%\.obj\*.*" "%cd%\.debug\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
+echo Copying from build to compile
+xcopy "%cd%\.build\*.*" "%cd%\.compile\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
 
 Goto End
 

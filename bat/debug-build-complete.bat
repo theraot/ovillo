@@ -4,8 +4,8 @@ IF %1.==. GOTO No1
     If not exist "%rootpath%" GOTO NoSource
     SET batpath=%~dp0
     IF "%batpath:~-1%"=="\" SET "batpath=%batpath:~0,-1%"
-    echo Copying from source to debug
-    xcopy "%rootpath%\*.*" "%cd%\.debug\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
+    echo Copying from source to compile
+    xcopy "%rootpath%\*.*" "%cd%\.compile\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
     GOTO End
 
 :NoSource

@@ -3,7 +3,7 @@
         "target": "ES6",
         "module": "none",
         "strict": true,
-        "out": "../.obj/ovillo.js",
+        "out": "../.build/ovillo.js",
         "composite": true
     }
 }
