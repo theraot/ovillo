@@ -2,5 +2,5 @@
 SET mypath=%~dp0
 pushd %mypath%
     SET mypath = %cd%
-    CALL %mypath%\bat\debug-build.bat %mypath%\src
+    CALL %mypath%\bat\deploy.bat %mypath%\src
 popd
