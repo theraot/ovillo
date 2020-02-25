@@ -2,5 +2,5 @@
 SET mypath=%~dp0
 pushd %mypath%
     SET mypath = %cd%
-    CALL %mypath%\bat\compile.bat %mypath%\src
+    CALL %mypath%\bat\make-compile.bat %mypath%\src
 popd
