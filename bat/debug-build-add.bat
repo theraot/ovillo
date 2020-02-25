@@ -3,7 +3,8 @@ IF %1.==. GOTO No1
     IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
     If not exist "%rootpath%" GOTO NoSource
     echo Copying to tmp
-    xcopy "%rootpath%\*.*" "%cd%\.tmp\" /S /Y
+    xcopy "%rootpath%\*.ts" "%cd%\.tmp\" /S /Y
+    xcopy "%rootpath%\tsconfig.json" "%cd%\.tmp\" /S /Y
     GOTO End
 
 :NoSource
