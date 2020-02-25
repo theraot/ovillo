@@ -2,51 +2,52 @@ SET basepath=%~dp0
 IF "%basepath:~-1%"=="\" SET "basepath=%basepath:~0,-1%"
 
 IF %1.==. GOTO NoArg
-CALL "%basepath%\debug-ensure-buildable.bat"
-CALL "%basepath%\debug-build-clean.bat"
-FOR %%A IN (%*) DO CALL :AddSource %%A
+CALL "%basepath%\archive-clean.bat"
+FOR %%A IN (%*) DO CALL :ArchivePut %%A
 
+CALL "%basepath%\build-ensure.bat"
 pushd "%cd%\.archive\"
-    echo Compiling TypeScript
+    echo Building TypeScript
     CALL tsc -b tsconfig.json
 popd
-FOR %%A IN (%*) DO CALL :CompleteSource %%A
 
+CALL "%basepath%\compile-clean.bat"
+FOR %%A IN (%*) DO CALL :CompilePut %%A
 echo Copying from build to compile
 xcopy "%cd%\.build\*.*" "%cd%\.compile\" /S /Y /exclude:%batpath%\xcopy-exclusion-list.txt
 
 Goto End
 
-:AddSource
+:ArchivePut
     pushd %~1
         SET rootpath=%cd%
     popd
     IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
     If not exist "%rootpath%" GOTO NoSource
     echo Working on: "%rootpath%"
-    CALL "%basepath%\debug-build-add.bat" %rootpath%
-    GOTO AddSourceEnd
+    CALL "%basepath%\archive-put.bat" %rootpath%
+    GOTO ArchivePutEnd
     :NoSource
         echo Not found source folder, expected path: "%rootpath%"
         echo Currnet script: %~f0
-        GOTO AddSourceEnd
-    :AddSourceEnd
+        GOTO ArchivePutEnd
+    :ArchivePutEnd
 GOTO:eof
 
-:CompleteSource
+:CompilePut
     pushd %~1
         SET rootpath=%cd%
     popd
     IF "%rootpath:~-1%"=="\" SET "rootpath=%rootpath:~0,-1%"
     If not exist "%rootpath%" GOTO NoSource
     echo Working on: "%rootpath%"
-    CALL "%basepath%\debug-build-complete.bat" %rootpath%
-    GOTO AddSourceEnd
+    CALL "%basepath%\compile-put.bat" %rootpath%
+    GOTO CompilePutEnd
     :NoSource
         echo Not found source folder, expected path: "%rootpath%"
         echo Currnet script: %~f0
-        GOTO AddSourceEnd
-    :AddSourceEnd
+        GOTO CompilePutEnd
+    :CompilePutEnd
 GOTO:eof
 
 :NoArg
