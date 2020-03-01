@@ -1,4 +1,4 @@
-module Ovillo.Structures
+module Ovillo
 {
     export class DefaultDictionary<Key, Value> implements Dictionary<Key, Value>
     {

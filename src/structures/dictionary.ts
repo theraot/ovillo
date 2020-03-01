@@ -1,4 +1,4 @@
-module Ovillo.Structures
+module Ovillo
 {
     export interface Dictionary<Key, Value>
     {
