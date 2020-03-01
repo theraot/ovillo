@@ -1,4 +1,4 @@
 module Ovillo
 {
-    export type classof<T> = new () => T;
+    export type classof<T> = new (...args:any[]) => T;
 }
