@@ -30,58 +30,25 @@ module Ovillo
             return new ComponentStorageWrapper<Component>(wrapped);
         }
 
-        public isset(entityId: EntityId): boolean
+        public add(entityId: EntityId, value: Component): boolean
         {
-            return this._wrapped.isset(entityId);
-        }
-
-        public get(entityId: EntityId): Option<Component>
-        {
-            return this._wrapped.get(entityId);
-        }
-
-        public set(entityId: EntityId, value: Component): void
-        {
-            this.exchange(entityId, value);
-        }
-
-        public update(entityId: EntityId, valueFactory: Converter<Option<Component>, Option<Component>>): void
-        {
-            let componentChangeHolder: Option<ComponentChanged<Component>> = None<ComponentChanged<Component>>();
-            this._wrapped.update(
-                entityId,
-                (input: Option<Component>): Option<Component> =>
-                {
-                    let output = valueFactory(input);
-                    if (input.isSome)
-                    {
-                        if (output.isSome)
-                        {
-                            componentChangeHolder = Some({change: "change", entityId: entityId, oldValue: input.value, newValue: output.value});
-                        }
-                        else
-                        {
-                            componentChangeHolder = Some({change: "remove", entityId: entityId, oldValue: input.value});
-                        }
-                    }
-                    else
-                    {
-                        if (output.isSome)
-                        {
-                            componentChangeHolder = Some({change: "add", entityId: entityId, newValue: output.value});
-                        }
-                        else
-                        {
-                            componentChangeHolder = None<ComponentChanged<Component>>();
-                        }
-                    }
-                    return output;
-                }
-            );
-            if (componentChangeHolder.isSome)
+            if (this._wrapped.add(entityId, value))
             {
-                this._dispatcher.raise(componentChangeHolder.value);
+                this._dispatcher.raise({change: "add", entityId: entityId, newValue: value});
+                return true;
             }
+
+            return false;
+        }
+
+        public clear(): void
+        {
+            this._wrapped.clear();
+        }
+
+        public contains(entityId: EntityId): boolean
+        {
+            return this._wrapped.contains(entityId);
         }
 
         public exchange(entityId: EntityId, value: Component): Option<Component>
@@ -98,15 +65,9 @@ module Ovillo
             return found;
         }
 
-        public add(entityId: EntityId, value: Component): boolean
+        public get(entityId: EntityId): Option<Component>
         {
-            if (this._wrapped.add(entityId, value))
-            {
-                this._dispatcher.raise({change: "add", entityId: entityId, newValue: value});
-                return true;
-            }
-
-            return false;
+            return this._wrapped.get(entityId);
         }
 
         public getOrAdd(entityId: EntityId, valueFactory: Factory<Component>): Component
@@ -166,6 +127,16 @@ module Ovillo
             return false;
         }
 
+        public set(entityId: EntityId, value: Component): void
+        {
+            this.exchange(entityId, value);
+        }
+
+        public get size(): number
+        {
+            return this._wrapped.size;
+        }
+
         public take(entityId: EntityId): Option<Component>
         {
             let found = this._wrapped.take(entityId);
@@ -176,6 +147,45 @@ module Ovillo
             }
 
             return found;
+        }
+
+        public update(entityId: EntityId, valueFactory: Converter<Option<Component>, Option<Component>>): void
+        {
+            let componentChangeHolder: Option<ComponentChanged<Component>> = None<ComponentChanged<Component>>();
+            this._wrapped.update(
+                entityId,
+                (input: Option<Component>): Option<Component> =>
+                {
+                    let output = valueFactory(input);
+                    if (input.isSome)
+                    {
+                        if (output.isSome)
+                        {
+                            componentChangeHolder = Some({change: "change", entityId: entityId, oldValue: input.value, newValue: output.value});
+                        }
+                        else
+                        {
+                            componentChangeHolder = Some({change: "remove", entityId: entityId, oldValue: input.value});
+                        }
+                    }
+                    else
+                    {
+                        if (output.isSome)
+                        {
+                            componentChangeHolder = Some({change: "add", entityId: entityId, newValue: output.value});
+                        }
+                        else
+                        {
+                            componentChangeHolder = None<ComponentChanged<Component>>();
+                        }
+                    }
+                    return output;
+                }
+            );
+            if (componentChangeHolder.isSome)
+            {
+                this._dispatcher.raise(componentChangeHolder.value);
+            }
         }
     }
 }
